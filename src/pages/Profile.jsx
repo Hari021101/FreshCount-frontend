@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import './Profile.css';
 
 const Profile = () => {
@@ -266,18 +268,28 @@ const Profile = () => {
                 className="form-input"
                 value={generalForm.phone}
                 onChange={e => setGeneralForm({...generalForm, phone: e.target.value})}
-                placeholder="+1 (555) 000-0000"
+                
               />
             </div>
 
             <div className="form-group">
               <label className="form-label">Date of Birth</label>
-              <input
-                type="date"
-                className="form-input"
-                value={generalForm.dob}
-                onChange={e => setGeneralForm({...generalForm, dob: e.target.value})}
-              />
+              <div className="datepicker-wrapper">
+                <DatePicker
+                  selected={generalForm.dob ? new Date(generalForm.dob) : null}
+                  onChange={(date) => setGeneralForm({...generalForm, dob: date ? date.toISOString().split('T')[0] : ''})}
+                  dateFormat="dd/MM/yyyy"
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                  placeholderText="Select date of birth"
+                  className="custom-datepicker"
+                  calendarClassName="custom-calendar"
+                  maxDate={new Date()}
+                  yearDropdownItemNumber={100}
+                  scrollableYearDropdown
+                />
+              </div>
             </div>
 
             <div className="form-actions">
